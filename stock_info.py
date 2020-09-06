@@ -37,14 +37,5 @@ def get_stock_data(ticker):
     alpha_key = "ZPMRPROK30QKNPIG"
     timeseries = TimeSeries(key=alpha_key, output_format='pandas')
     data, meta_data = timeseries.get_intraday(symbol=ticker, interval='60min', outputsize='full')
-    print(data['4. close'][:60])
-    data['4. close'][:60].plot()
     
-    return data['4. close']    
-
-    """
-    while True:
-        data, meta_data = timeseries.get_intraday(symbol='AAPL', interval='1min', outputsize='full')
-        print(data['4. close'][-1])
-        time.sleep(60)
-    """
+    return data['4. close']

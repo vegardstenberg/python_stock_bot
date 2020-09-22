@@ -7,7 +7,7 @@ Created on Fri Aug  7 19:30:58 2020
 
 from bs4 import BeautifulSoup
 from requests import get
-from rtstock.stock import Stock
+#from rtstock.stock import Stock
 from alpha_vantage.timeseries import TimeSeries
 import pandas as pd
 import seaborn as sns
@@ -24,18 +24,18 @@ def get_gainers(num):
     tickers = soup.find_all('a', class_='Fw(600) C($linkColor)')
     name = soup.find_all('td', class_='Va(m) Ta(start) Px(10px) Fz(s)')
 
-    gainers_tickers = []    
+    gainers_tickers = []
 
     print("Todays Gainers:")
     for i in range(num):
         print("Symbol:", tickers[i].text, "Name:", name[i].text)
         gainers_tickers.append(tickers[i].text)
-    
+
     return gainers_tickers
 
 def get_stock_data(ticker):
     alpha_key = "ZPMRPROK30QKNPIG"
     timeseries = TimeSeries(key=alpha_key, output_format='pandas')
     data, meta_data = timeseries.get_intraday(symbol=ticker, interval='60min', outputsize='full')
-    
+
     return data['4. close']

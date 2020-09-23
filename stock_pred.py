@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 25 13:30:53 2020
 
-@author: Vagard Stenberg
+@author: Vegard Hansen Stenberg
 """
 
 import stock_info as si
@@ -14,6 +14,8 @@ stock = 0
 potential_stocks = []
 invested_stocks = []
 
+money = 10000
+
 for gainers in si.get_gainers(25):
     try:
         stock = si.get_stock_data(gainers)
@@ -24,20 +26,13 @@ for gainers in si.get_gainers(25):
         potential_stocks.append([stock_name, stock])
     except ValueError as e:
         if(str(e) == "Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency."):
-            print("Over the max amount of calls")
-            #potential_stocks.append[[gainers, si.get_stock_data[gainers]]]
-
-        print("Could not invest in:", gainers)
-
-potential_stocks.append([stock_name, stock[0]])
+            print("Over the max amount of calls", gainers)
+        else:
+            print("Could not invest in:", gainers)
 
 if(stock.empty):
     print("Found no stocks at this time... shutting down...")
     exit()
-
-buying_price = []
-
-money = 10000
 
 def SMA(days, stonk):
     s = 0
@@ -46,11 +41,17 @@ def SMA(days, stonk):
     s = s / days
     return s
 
+print(potential_stocks)
+print(potential_stocks[0][1][0])
 for potentials in potential_stocks:
-    if(SMA(200, potentials[1]) < SMA(50, potentials[1])):
+    print("SMA 20", SMA(20, potentials[1]))
+    print("SMA 5", SMA(5, potentials[1]))
+    if(SMA(20, potentials[1]) < SMA(5, potentials[1])):
         print("invest!", potentials[0], potentials[1][0])
-        invested_stocks.append(potentials[0], potentials[1][0])
+        invested_stocks.append([potentials[0], potentials[1][0]])
+print(invested_stocks)
 
+"""
 while True:
     stock = si.get_stock_data(stock_name)
     price = stock[0]
@@ -63,10 +64,4 @@ while True:
         buying_price = 0
         break;
     time.sleep(600)
-
-print(potential_stocks)
-
-print(stock[0])
-print(gainers)
-print("SMA 200:", SMA(200))
-print("SMA 50:", SMA(50))
+"""

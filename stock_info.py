@@ -36,6 +36,6 @@ def get_gainers(num):
 def get_stock_data(ticker):
     alpha_key = "ZPMRPROK30QKNPIG"
     timeseries = TimeSeries(key=alpha_key, output_format='pandas')
-    data, meta_data = timeseries.get_intraday(symbol=ticker, interval='60min', outputsize='full')
+    data, meta_data = timeseries.get_intraday(symbol=ticker, interval='5min', outputsize='full')
 
     return data['4. close']

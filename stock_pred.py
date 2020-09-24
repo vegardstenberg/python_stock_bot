@@ -45,7 +45,7 @@ def find_investments():
     for potentials in potential_stocks:
         if(SMA(20, potentials[1]) < SMA(5, potentials[1])):
             print("invest!", potentials[0], potentials[1][0])
-            invested_stocks.append([potentials[0], potentials[1]])
+            invested_stocks.append([potentials[0], potentials[1][0]])
 
 find_potentials()
 find_investments()
@@ -54,12 +54,14 @@ while investing:
     print("Doing some research...")
     time.sleep(300)
     for i in range(len(invested_stocks)):
-        bought_price = invested_stocks[i][1][0]
+        bought_price = invested_stocks[i][1]
         current_price = si.get_stock_data(invested_stocks[i][0])[0]
 
-        if(((current_price - bought_price) / bought_price) * 100 > 2):
+        pros_change = ((current_price - bought_price) / bought_price) * 100
+
+        if(pros_change > 2):
             print("Sold at a profit of", current_price - bought_price)
             invested_stocks.pop(i)
-        elif(SMA(20, invested_stocks[1]) > SMA(5, invested_stocks[1]) and current_price > 0):
+        elif(pros_change < -2):
             print("Sold at a change of", current_price - bought_price)
             invested_stocks.pop(i)
